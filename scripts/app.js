@@ -7,7 +7,11 @@ console.log("An input changed");
 };
 
 $scope.helloConsole = dataService.helloConsole;
-$scope.todos = dataService.getTodos;
+
+dataService.getTodos(function(response){
+  console.log(response.data);
+  $scope.todos = response.data;
+});
 
 })
 .service('dataService', function($http){
@@ -15,11 +19,10 @@ $scope.todos = dataService.getTodos;
     console.log("This is a hello console service");
   };
 
-  this.getTodos = 
+  this.getTodos = function(callback){
    $http.get('mock/todos.json')
-  .then(function(response){
-    console.log("This is response data", response.data);
-    return response.data;
-  });
+
+  .then(callback);
+    };
 
 });
